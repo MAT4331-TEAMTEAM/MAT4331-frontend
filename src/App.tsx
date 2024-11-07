@@ -1,10 +1,11 @@
-import GlobalStyles from "@/styles/Globalstyles.styles";
+import MainPage from "@/pages/mainpage/MainPage";
+import GlobalStyles from "@/styles/GlobalStyles.styles";
 
 const App = () => {
   return (
     <div>
       <GlobalStyles />
-      <h1>Hello, World!</h1>
+      <MainPage />
     </div>
   );
 };
