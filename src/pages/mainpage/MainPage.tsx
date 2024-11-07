@@ -2,6 +2,7 @@ import * as styles from "./MainPage.styles";
 
 import { useEffect, useState } from "react";
 
+import Chatting from "@/components/chatting/Chatting";
 import Game from "@/components/game/Game";
 import Menu from "@/components/menu/Menu";
 import Topbar from "@/components/topbar/Topbar";
@@ -12,10 +13,16 @@ interface GameInterface {
   gamePrediction: string;
 }
 
+interface ChattingInterface {
+  title: string;
+  count: number;
+}
+
 const MainPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isList, setIsList] = useState(true);
   const [gameList, setGameList] = useState<GameInterface[]>([]);
+  const [chattingList, setChattingList] = useState<ChattingInterface[]>([]);
 
   useEffect(() => {
     setIsLogin(false);
@@ -51,6 +58,28 @@ const MainPage = () => {
         gamePrediction: "gamePrediction",
       },
     ]);
+    setChattingList([
+      {
+        title: "title",
+        count: 1,
+      },
+      {
+        title: "title",
+        count: 2,
+      },
+      {
+        title: "title",
+        count: 3,
+      },
+      {
+        title: "title",
+        count: 4,
+      },
+      {
+        title: "title",
+        count: 5,
+      },
+    ]);
   }, []);
 
   const clickList = () => {
@@ -58,10 +87,10 @@ const MainPage = () => {
   };
 
   const clickChattingRoom = () => {
-    if (!isLogin) {
-      alert("먼저 로그인을 해주세요.");
-    } else {
+    if (isLogin) {
       setIsList(false);
+    } else {
+      alert("로그인이 필요합니다.");
     }
   };
 
@@ -74,14 +103,22 @@ const MainPage = () => {
           clickList={clickList}
           clickChattingRoom={clickChattingRoom}
         />
-        {gameList.map((game, index) => (
-          <Game
-            key={index}
-            title={game.title}
-            gameInfo={game.gameInfo}
-            gamePrediction={game.gamePrediction}
-          />
-        ))}
+        {isList
+          ? gameList.map((game, index) => (
+              <Game
+                key={index}
+                title={game.title}
+                gameInfo={game.gameInfo}
+                gamePrediction={game.gamePrediction}
+              />
+            ))
+          : chattingList.map((chatting, index) => (
+              <Chatting
+                key={index}
+                title={chatting.title}
+                count={chatting.count}
+              />
+            ))}
       </styles.InnerContainer>
     </styles.OuterContainer>
   );
