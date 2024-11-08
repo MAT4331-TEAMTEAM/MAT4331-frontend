@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import Chatting from "@/components/chatting/Chatting";
 import Game from "@/components/game/Game";
+import Guide from "@/components/guide/Guide";
 import Menu from "@/components/menu/Menu";
 import Topbar from "@/components/topbar/Topbar";
 
@@ -94,6 +95,31 @@ const MainPage = () => {
     }
   };
 
+  const makeGameList = () => {
+    if (gameList.length == 0) {
+      return <Guide text="현재 진행중인 게임이 없습니다." />;
+    } else {
+      return gameList.map((game, index) => (
+        <Game
+          key={index}
+          title={game.title}
+          gameInfo={game.gameInfo}
+          gamePrediction={game.gamePrediction}
+        />
+      ));
+    }
+  };
+
+  const makeChattingList = () => {
+    if (chattingList.length == 0) {
+      return <Guide text="현재 참가하고 있는 채팅방이 없습니다." />;
+    } else {
+      return chattingList.map((chatting, index) => (
+        <Chatting key={index} title={chatting.title} count={chatting.count} />
+      ));
+    }
+  };
+
   return (
     <styles.OuterContainer>
       <styles.InnerContainer>
@@ -103,22 +129,7 @@ const MainPage = () => {
           clickList={clickList}
           clickChattingRoom={clickChattingRoom}
         />
-        {isList
-          ? gameList.map((game, index) => (
-              <Game
-                key={index}
-                title={game.title}
-                gameInfo={game.gameInfo}
-                gamePrediction={game.gamePrediction}
-              />
-            ))
-          : chattingList.map((chatting, index) => (
-              <Chatting
-                key={index}
-                title={chatting.title}
-                count={chatting.count}
-              />
-            ))}
+        {isList ? makeGameList() : makeChattingList()}
       </styles.InnerContainer>
     </styles.OuterContainer>
   );
