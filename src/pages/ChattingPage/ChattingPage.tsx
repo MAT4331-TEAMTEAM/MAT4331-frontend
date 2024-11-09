@@ -80,18 +80,17 @@ const MatchPage = () => {
         <Title title={`${id} 관련 채팅방`} />
         <styles.ChattingRoomOuterContainer>
           <styles.ChattingRoomInnerContainer>
-            {chattingList.map((chatting, index) => {
-              const isMine = nickname == chatting.nickname;
-
-              return (
-                <styles.ChattingContainer key={index} $isMine={isMine}>
-                  <styles.Nickname>{chatting.nickname}</styles.Nickname>
-                  <styles.Chatting $isMine={isMine}>
-                    {chatting.chatting}
-                  </styles.Chatting>
-                </styles.ChattingContainer>
-              );
-            })}
+            {chattingList.map((chatting, index) => (
+              <styles.ChattingContainer
+                key={index}
+                $isMine={nickname == chatting.nickname}
+              >
+                <styles.Nickname>{chatting.nickname}</styles.Nickname>
+                <styles.Chatting $isMine={nickname == chatting.nickname}>
+                  {chatting.chatting}
+                </styles.Chatting>
+              </styles.ChattingContainer>
+            ))}
           </styles.ChattingRoomInnerContainer>
         </styles.ChattingRoomOuterContainer>
         <styles.ChattingInputContainer>
