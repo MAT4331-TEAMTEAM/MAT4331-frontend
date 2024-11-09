@@ -1,6 +1,7 @@
+import * as React from "react";
 import * as styles from "./ChattingPage.styles";
 
-import { React, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Title from "@/components/Title/Title";
