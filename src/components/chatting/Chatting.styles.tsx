@@ -7,7 +7,7 @@ export const ChattingContainer = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
+  width: 45rem;
   height: 7.5rem;
   box-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
   border: 0.0625rem solid ${Colorstyles.GREEN};

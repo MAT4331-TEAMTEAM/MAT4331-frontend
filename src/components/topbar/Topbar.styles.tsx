@@ -7,7 +7,7 @@ export const TopBarContainer = styled.div`
   justify-content: space-between;
   width: 45rem;
   height: 3.75rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 `;
 
 export const Logo = styled.img`

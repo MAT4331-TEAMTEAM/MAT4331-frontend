@@ -1,17 +1,18 @@
 import * as styles from "./MainPage.styles";
 
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import Chatting from "@/components/chatting/Chatting";
-import Game from "@/components/game/Game";
-import Guide from "@/components/guide/Guide";
-import Menu from "@/components/menu/Menu";
-import Topbar from "@/components/topbar/Topbar";
+import Chatting from "@/components/Chatting/Chatting";
+import Guide from "@/components/Guide/Guide";
+import Match from "@/components/Match/Match";
+import Menu from "@/components/Menu/Menu";
+import Topbar from "@/components/Topbar/Topbar";
 
-interface GameInterface {
+interface MatchInterface {
   title: string;
-  gameInfo: "경기 진행 중" | "경기 시작 전" | "경기 종료";
-  gamePrediction: string;
+  matchInfo: "경기 진행 중" | "경기 시작 전" | "경기 종료";
+  matchPrediction: string;
 }
 
 interface ChattingInterface {
@@ -22,41 +23,40 @@ interface ChattingInterface {
 const MainPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isList, setIsList] = useState(true);
-  const [gameList, setGameList] = useState<GameInterface[]>([]);
+  const [matchList, setMatchList] = useState<MatchInterface[]>([]);
   const [chattingList, setChattingList] = useState<ChattingInterface[]>([]);
 
   useEffect(() => {
-    setIsLogin(false);
-    setGameList([
+    setMatchList([
       {
         title: "title",
-        gameInfo: "경기 진행 중",
-        gamePrediction: "gamePrediction",
+        matchInfo: "경기 진행 중",
+        matchPrediction: "gamePrediction",
       },
       {
         title: "title",
-        gameInfo: "경기 진행 중",
-        gamePrediction: "gamePrediction",
+        matchInfo: "경기 진행 중",
+        matchPrediction: "gamePrediction",
       },
       {
         title: "title",
-        gameInfo: "경기 진행 중",
-        gamePrediction: "gamePrediction",
+        matchInfo: "경기 진행 중",
+        matchPrediction: "gamePrediction",
       },
       {
         title: "title",
-        gameInfo: "경기 진행 중",
-        gamePrediction: "gamePrediction",
+        matchInfo: "경기 진행 중",
+        matchPrediction: "gamePrediction",
       },
       {
         title: "title",
-        gameInfo: "경기 진행 중",
-        gamePrediction: "gamePrediction",
+        matchInfo: "경기 진행 중",
+        matchPrediction: "gamePrediction",
       },
       {
         title: "title",
-        gameInfo: "경기 진행 중",
-        gamePrediction: "gamePrediction",
+        matchInfo: "경기 진행 중",
+        matchPrediction: "gamePrediction",
       },
     ]);
     setChattingList([
@@ -83,6 +83,10 @@ const MainPage = () => {
     ]);
   }, []);
 
+  const clickLogin = () => {
+    setIsLogin(!isLogin);
+  };
+
   const clickList = () => {
     setIsList(true);
   };
@@ -96,16 +100,21 @@ const MainPage = () => {
   };
 
   const makeGameList = () => {
-    if (gameList.length == 0) {
+    if (matchList.length == 0) {
       return <Guide text="현재 진행중인 게임이 없습니다." />;
     } else {
-      return gameList.map((game, index) => (
-        <Game
+      return matchList.map((match, index) => (
+        <Link
+          to={`/match/${index}`}
+          style={{ textDecoration: "none" }}
           key={index}
-          title={game.title}
-          gameInfo={game.gameInfo}
-          gamePrediction={game.gamePrediction}
-        />
+        >
+          <Match
+            title={match.title}
+            matchInfo={match.matchInfo}
+            matchPrediction={match.matchPrediction}
+          />
+        </Link>
       ));
     }
   };
@@ -115,7 +124,13 @@ const MainPage = () => {
       return <Guide text="현재 참가하고 있는 채팅방이 없습니다." />;
     } else {
       return chattingList.map((chatting, index) => (
-        <Chatting key={index} title={chatting.title} count={chatting.count} />
+        <Link
+          to={`/chatting/${index}`}
+          style={{ textDecoration: "none" }}
+          key={index}
+        >
+          <Chatting title={chatting.title} count={chatting.count} />
+        </Link>
       ));
     }
   };
@@ -123,7 +138,7 @@ const MainPage = () => {
   return (
     <styles.OuterContainer>
       <styles.InnerContainer>
-        <Topbar isLogin={isLogin} />
+        <Topbar isLogin={isLogin} clickLogin={clickLogin} />
         <Menu
           isList={isList}
           clickList={clickList}

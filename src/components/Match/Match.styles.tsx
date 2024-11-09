@@ -3,11 +3,11 @@ import styled from "styled-components";
 import Colorstyles from "@/styles/Colorstyles.styles";
 import Fontstyles from "@/styles/Fontstyles.styles";
 
-export const GameContainer = styled.button`
+export const MatchContainer = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
+  width: 45rem;
   height: 10rem;
   box-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
   border: 0.0625rem solid ${Colorstyles.GREEN};
@@ -22,14 +22,14 @@ export const Title = styled.div`
   height: max-content;
 `;
 
-export const GameInfo = styled.div`
+export const MatchInfo = styled.div`
   ${Fontstyles.Medium_M}
   width: max-content;
   height: max-content;
   color: ${Colorstyles.LIGHT_GRAY};
 `;
 
-export const GamePrediction = styled.div`
+export const MatchPrediction = styled.div`
   ${Fontstyles.Medium_M}
   width: max-content;
   height: max-content;

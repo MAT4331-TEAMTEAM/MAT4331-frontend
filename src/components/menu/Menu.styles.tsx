@@ -5,7 +5,7 @@ import Fontstyles from "@/styles/Fontstyles.styles";
 
 export const MenuContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 45rem;
   height: 3.75rem;
   box-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.25);
   border-radius: 0.75rem;
