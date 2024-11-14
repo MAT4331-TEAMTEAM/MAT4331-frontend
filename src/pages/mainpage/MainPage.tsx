@@ -9,6 +9,8 @@ import Match from "@/components/Match/Match";
 import Menu from "@/components/Menu/Menu";
 import Topbar from "@/components/Topbar/Topbar";
 
+import { CheckLogin } from "@/functions/CheckLogin";
+
 interface MatchInterface {
   title: string;
   matchInfo: "경기 진행 중" | "경기 시작 전" | "경기 종료";
@@ -21,7 +23,6 @@ interface ChattingInterface {
 }
 
 const MainPage = () => {
-  const [isLogin, setIsLogin] = useState(false);
   const [isList, setIsList] = useState(true);
   const [matchList, setMatchList] = useState<MatchInterface[]>([]);
   const [chattingList, setChattingList] = useState<ChattingInterface[]>([]);
@@ -83,16 +84,12 @@ const MainPage = () => {
     ]);
   }, []);
 
-  const clickLogin = () => {
-    setIsLogin(!isLogin);
-  };
-
   const clickList = () => {
     setIsList(true);
   };
 
   const clickChattingRoom = () => {
-    if (isLogin) {
+    if (CheckLogin()) {
       setIsList(false);
     } else {
       alert("로그인이 필요합니다.");
@@ -138,7 +135,7 @@ const MainPage = () => {
   return (
     <styles.OuterContainer>
       <styles.InnerContainer>
-        <Topbar isLogin={isLogin} clickLogin={clickLogin} />
+        <Topbar />
         <Menu
           isList={isList}
           clickList={clickList}

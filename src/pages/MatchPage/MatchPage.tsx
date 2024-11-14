@@ -14,7 +14,6 @@ interface ChattingInterface {
 }
 
 const MatchPage = () => {
-  const [isLogin, setIsLogin] = useState(false);
   const [chattingList, setChattingList] = useState<ChattingInterface[]>([]);
   const { id } = useParams();
 
@@ -43,14 +42,10 @@ const MatchPage = () => {
     ]);
   }, []);
 
-  const clickLogin = () => {
-    setIsLogin(!isLogin);
-  };
-
   return (
     <styles.OuterContainer>
       <styles.InnerContainer>
-        <Topbar isLogin={isLogin} clickLogin={clickLogin} />
+        <Topbar />
         <Title title={`${id} 관련 채팅방 목록`} />
         {chattingList.length == 0 ? (
           <Guide text="현재 참가하고 있는 채팅방이 없습니다." />

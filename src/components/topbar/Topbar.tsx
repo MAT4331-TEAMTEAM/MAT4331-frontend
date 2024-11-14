@@ -1,12 +1,23 @@
 import * as styles from "./Topbar.styles";
 
-interface TopbarProps {
-  isLogin: boolean;
-  clickLogin: () => void;
-}
+import { useEffect, useState } from "react";
 
-const Topbar = ({ isLogin, clickLogin }: TopbarProps) => {
-  const loginText = isLogin ? "로그아웃" : "로그인";
+import { CheckLogin } from "@/functions/CheckLogin";
+
+const Topbar = () => {
+  const [isLogin, setIsLogin] = useState(CheckLogin());
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsLogin(CheckLogin());
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const clickLogo = () => {
     window.location.href = "/";
@@ -15,7 +26,27 @@ const Topbar = ({ isLogin, clickLogin }: TopbarProps) => {
   return (
     <styles.TopBarContainer>
       <styles.Logo src="/images/rectangle-logo.png" onClick={clickLogo} />
-      <styles.LoginButton onClick={clickLogin}>{loginText}</styles.LoginButton>
+      <styles.LoginButton
+        onClick={() => {
+          if (isLogin) {
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/auth/logout`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).then(() => {
+              localStorage.removeItem("accessToken");
+              localStorage.removeItem("refreshToken");
+
+              window.location.reload();
+            });
+          } else {
+            window.location.href = `${import.meta.env.VITE_BACKEND_URL}/v1/auth/login/oauth2/google`;
+          }
+        }}
+      >
+        {isLogin ? "로그아웃" : "로그인"}
+      </styles.LoginButton>
     </styles.TopBarContainer>
   );
 };

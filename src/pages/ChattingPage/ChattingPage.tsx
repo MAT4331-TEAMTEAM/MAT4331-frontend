@@ -7,13 +7,14 @@ import { useParams } from "react-router-dom";
 import Title from "@/components/Title/Title";
 import Topbar from "@/components/Topbar/Topbar";
 
+import { CheckLogin } from "@/functions/CheckLogin";
+
 interface ChattingInterface {
   nickname: string;
   chatting: string;
 }
 
 const MatchPage = () => {
-  const [isLogin, setIsLogin] = useState(false);
   const [chattingList, setChattingList] = useState<ChattingInterface[]>([]);
   const [nickname, setNickname] = useState("");
   const chatting = useRef<HTMLTextAreaElement | null>(null);
@@ -38,12 +39,26 @@ const MatchPage = () => {
     ]);
   }, []);
 
-  const clickLogin = () => {
-    setIsLogin(!isLogin);
+  const clickChatting = () => {
+    if (!CheckLogin()) {
+      if (chatting.current !== null) {
+        chatting.current.blur();
+      }
+
+      alert("로그인 후 이용해주세요.");
+
+      if (chatting.current !== null) {
+        chatting.current.value = "";
+      }
+    }
   };
 
   const clickSend = () => {
-    if (isLogin) {
+    if (chatting.current !== null) {
+      chatting.current.blur();
+    }
+
+    if (!CheckLogin()) {
       alert("로그인 후 이용해주세요.");
     } else if (
       chatting.current === null ||
@@ -76,7 +91,7 @@ const MatchPage = () => {
   return (
     <styles.OuterContainer>
       <styles.InnerContainer>
-        <Topbar isLogin={isLogin} clickLogin={clickLogin} />
+        <Topbar />
         <Title title={`${id} 관련 채팅방`} />
         <styles.ChattingRoomOuterContainer>
           <styles.ChattingRoomInnerContainer>
@@ -96,8 +111,9 @@ const MatchPage = () => {
         <styles.ChattingInputContainer>
           <styles.ChattingInput
             placeholder="메시지를 입력해주세요."
-            ref={chatting}
+            onClick={clickChatting}
             onKeyDown={clickEnter}
+            ref={chatting}
           />
           <styles.ChattingButton onClick={clickSend}>
             전송
