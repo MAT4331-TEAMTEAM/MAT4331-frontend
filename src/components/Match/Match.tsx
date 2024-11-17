@@ -2,7 +2,7 @@ import * as styles from "./Match.styles";
 
 interface MatchProps {
   title: string;
-  matchInfo: "경기 진행 중" | "경기 시작 전" | "경기 종료";
+  matchInfo: "경기 시작 전" | "경기 종료" | "경기 취소";
   matchPrediction: string;
 }
 

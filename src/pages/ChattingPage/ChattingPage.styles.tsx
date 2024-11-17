@@ -58,6 +58,7 @@ export const ChattingContainer = styled.div<{ $isMine: boolean }>`
 export const Nickname = styled.div`
   ${Fontstyles.Medium_S}
   margin-bottom: 0.25rem;
+  margin-right: 0.125rem;
   color: ${Colorstyles.DARK_GRAY};
 `;
 
