@@ -16,7 +16,7 @@ const Menu = ({ isList, clickList, clickChattingRoom }: MenuProps) => {
         $isSelected={loginText}
         $isLeft={true}
       >
-        리스트
+        경기 목록
       </styles.MenuButton>
       <styles.MenuButton
         onClick={clickChattingRoom}
