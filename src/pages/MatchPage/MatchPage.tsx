@@ -3,10 +3,12 @@ import * as styles from "./MatchPage.styles";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
+import Add from "@/components/Add/Add";
 import Chatting from "@/components/Chatting/Chatting";
 import Guide from "@/components/Guide/Guide";
 import Title from "@/components/Title/Title";
 import Topbar from "@/components/Topbar/Topbar";
+import { CheckLogin } from "@/functions/CheckLogin";
 
 interface ChattingInterface {
   id: number;
@@ -26,7 +28,8 @@ const MatchPage = () => {
   const [chattingList, setChattingList] = useState<ChattingInterface[]>([]);
   const { id } = useParams();
   const location = useLocation();
-  const title = location.state.title;
+  const homeTeam = location.state.homeTeam;
+  const awayTeam = location.state.awayTeam;
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/chatrooms/${id}`, {
@@ -67,7 +70,7 @@ const MatchPage = () => {
     <styles.OuterContainer>
       <styles.InnerContainer>
         <Topbar />
-        <Title title={`${title} 관련 채팅방 목록`} />
+        <Title title={`${homeTeam} vs ${awayTeam} 관련 채팅방 목록`} />
         {chattingList.length == 0 ? (
           <Guide text="관련 채팅방이 없습니다." />
         ) : (
@@ -82,6 +85,13 @@ const MatchPage = () => {
             </Link>
           ))
         )}
+        {CheckLogin() ? (
+          <Add
+            id={parseInt(id ? id : "0")}
+            homeTeam={homeTeam}
+            awayTeam={awayTeam}
+          />
+        ) : null}
       </styles.InnerContainer>
     </styles.OuterContainer>
   );

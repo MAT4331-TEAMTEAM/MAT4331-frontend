@@ -14,7 +14,8 @@ import { CheckLogin } from "@/functions/CheckLogin";
 interface MatchInterface {
   id: number;
   title: string;
-  secondTitle: string;
+  homeTeam: string;
+  awayTeam: string;
   matchInfo: "경기 시작 전" | "경기 종료" | "경기 취소";
   matchPrediction: string;
 }
@@ -55,7 +56,7 @@ const MainPage = () => {
     const now = new Date();
 
     fetch(
-      `${import.meta.env.VITE_BACKEND_URL}/v1/games?year=${now.getFullYear()}&month=${now.getMonth() + 1}&day=${now.getDate()}`,
+      `${import.meta.env.VITE_BACKEND_URL}/v1/games?year=${now.getFullYear()}&month=${now.getMonth() + 1}&day=19`,
     )
       .then((res) => {
         if (!res.ok) {
@@ -70,7 +71,8 @@ const MainPage = () => {
             return {
               id: element.id,
               title: `${element.homeTeam} ${element.homeScore} vs ${element.awayScore} ${element.awayTeam}`,
-              secondTitle: `${element.homeTeam} vs ${element.awayTeam}`,
+              homeTeam: element.homeTeam,
+              awayTeam: element.awayTeam,
               matchInfo:
                 element.gameStatus == "finished"
                   ? "경기 종료"
@@ -141,7 +143,10 @@ const MainPage = () => {
       return matchList.map((match) => (
         <Link
           to={`/match/${match.id}`}
-          state={{ title: match.secondTitle }}
+          state={{
+            homeTeam: match.homeTeam,
+            awayTeam: match.awayTeam,
+          }}
           style={{ textDecoration: "none" }}
           key={match.id}
         >

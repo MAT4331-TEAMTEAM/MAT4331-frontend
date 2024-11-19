@@ -35,7 +35,7 @@ const LoginPage = () => {
 
           window.dispatchEvent(new Event("storage"));
 
-          navigate(-1);
+          navigate("/");
         })
         .catch((error) => {
           console.error("Error:", error);
