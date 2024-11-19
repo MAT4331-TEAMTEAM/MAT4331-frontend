@@ -57,7 +57,7 @@ const MatchPage = () => {
 
           socket.current?.emit("joinRoom", id);
           socket.current?.on("chat", (message) => {
-            setChattingList([
+            setChattingList((chattingList) => [
               { nickname: message.writer.nickname, chatting: message.content },
               ...chattingList,
             ]);

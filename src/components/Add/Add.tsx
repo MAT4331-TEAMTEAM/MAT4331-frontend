@@ -50,6 +50,8 @@ const Add = ({ id, homeTeam, awayTeam }: AddProps) => {
         .then((res) => {
           if (!res.ok) {
             throw new Error("채팅방 생성 실패");
+          } else {
+            setIsOpen(false);
           }
 
           return res.json();
