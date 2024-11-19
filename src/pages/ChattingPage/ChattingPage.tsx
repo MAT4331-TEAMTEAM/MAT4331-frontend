@@ -35,7 +35,7 @@ const MatchPage = () => {
         setNickname(payload.nickname);
       }
 
-      socket.current = io("http://localhost:8080/chat", {
+      socket.current = io(`${import.meta.env.VITE_BACKEND_URL}/chat`, {
         withCredentials: true,
         auth: {
           token: accessToken,

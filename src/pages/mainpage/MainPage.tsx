@@ -56,7 +56,7 @@ const MainPage = () => {
     const now = new Date();
 
     fetch(
-      `${import.meta.env.VITE_BACKEND_URL}/v1/games?year=${now.getFullYear()}&month=${now.getMonth() + 1}&day=19`,
+      `${import.meta.env.VITE_BACKEND_URL}/v1/games?year=${now.getFullYear()}&month=${now.getMonth() + 1}&day=${now.getDate()}`,
     )
       .then((res) => {
         if (!res.ok) {
