@@ -16,6 +16,21 @@ interface ChattingInterface {
   chatting: string;
 }
 
+interface WriterInterface {
+  id: number;
+  nickname: string;
+  preferTeam: string;
+  profile: string;
+}
+
+interface ChattingElementInterface {
+  id: number;
+  content: string;
+  type: string;
+  createdAt: string;
+  writer: WriterInterface;
+}
+
 const MatchPage = () => {
   const [chattingList, setChattingList] = useState<ChattingInterface[]>([]);
   const [nickname, setNickname] = useState("");
@@ -34,6 +49,39 @@ const MatchPage = () => {
       if (payload) {
         setNickname(payload.nickname);
       }
+
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/chas/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify({
+          chatroomId: id,
+          chatId: null,
+          loadCount: 1000000,
+        }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("채팅 기록 불러오기 실패");
+          }
+
+          return res.json();
+        })
+        .then((data) => {
+          setChattingList(
+            data.chatList.map((chatting: ChattingElementInterface) => ({
+              nickname: chatting.writer.nickname,
+              chatting: chatting.content,
+            })),
+          );
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+
+          alert("채팅 기록 불러오기 실패");
+        });
 
       socket.current = io(`${import.meta.env.VITE_BACKEND_URL}/chat`, {
         withCredentials: true,
