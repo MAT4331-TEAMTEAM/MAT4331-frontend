@@ -31,7 +31,7 @@ interface ChattingElementInterface {
   writer: WriterInterface;
 }
 
-const MatchPage = () => {
+const ChattingPage = () => {
   const [chattingList, setChattingList] = useState<ChattingInterface[]>([]);
   const [nickname, setNickname] = useState("");
   const { id } = useParams();
@@ -224,4 +224,4 @@ const MatchPage = () => {
   );
 };
 
-export default MatchPage;
+export default ChattingPage;
