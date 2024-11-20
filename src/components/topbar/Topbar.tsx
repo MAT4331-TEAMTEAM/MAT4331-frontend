@@ -40,7 +40,7 @@ const Topbar = () => {
               localStorage.removeItem("accessToken");
               localStorage.removeItem("refreshToken");
 
-              window.location.reload();
+              window.location.href = "/";
             });
           } else {
             window.location.href = `${import.meta.env.VITE_BACKEND_URL}/v1/auth/login/oauth2/google`;
