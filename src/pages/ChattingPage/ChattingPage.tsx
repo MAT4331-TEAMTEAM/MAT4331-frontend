@@ -162,7 +162,10 @@ const ChattingPage = () => {
     } else if (chatting.current.value.length > 100) {
       alert("메시지를 100자 이하로 입력해주세요.");
     } else {
-      socket.current?.emit("chat", { id, content: chatting.current.value });
+      socket.current?.emit("chat", {
+        chatroomId: id,
+        content: chatting.current.value,
+      });
     }
 
     if (chatting.current !== null) {
