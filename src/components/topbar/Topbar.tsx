@@ -33,6 +33,7 @@ const Topbar = () => {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
               },
             }).then(() => {
               localStorage.removeItem("accessToken");
