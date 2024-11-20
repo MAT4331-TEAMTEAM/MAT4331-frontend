@@ -50,18 +50,16 @@ const MatchPage = () => {
         setNickname(payload.nickname);
       }
 
-      fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/chas/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/v1/chats?chatroomId=${id}&loadCount=100000`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         },
-        body: JSON.stringify({
-          chatroomId: id,
-          chatId: null,
-          loadCount: 1000000,
-        }),
-      })
+      )
         .then((res) => {
           if (!res.ok) {
             throw new Error("채팅 기록 불러오기 실패");
