@@ -69,7 +69,7 @@ const MatchPage = () => {
         })
         .then((data) => {
           setChattingList(
-            data.chatList.map((chatting: ChattingElementInterface) => ({
+            data.map((chatting: ChattingElementInterface) => ({
               nickname: chatting.writer.nickname,
               chatting: chatting.content,
             })),
