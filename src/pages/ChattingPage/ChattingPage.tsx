@@ -175,26 +175,28 @@ const ChattingPage = () => {
   };
 
   const exitChatting = () => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/chatrooms/${id}/leave`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        credentials: "include",
-      },
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("채팅방 나가기 실패");
-        } else {
-          window.location.href = "/";
-        }
+    if (CheckLogin()) {
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/chatrooms/${id}/leave`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          credentials: "include",
+        },
       })
-      .catch((error) => {
-        console.error("Error:", error);
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("채팅방 나가기 실패");
+          } else {
+            window.location.href = "/";
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
 
-        alert("채팅방 나가기 실패");
-      });
+          alert("채팅방 나가기 실패");
+        });
+    }
   };
 
   return (
@@ -228,7 +230,7 @@ const ChattingPage = () => {
             전송
           </styles.ChattingButton>
         </styles.ChattingInputContainer>
-        {CheckLogin() ? <Exit exitChatting={exitChatting} /> : null}
+        <Exit exitChatting={exitChatting} />
       </styles.InnerContainer>
     </styles.OuterContainer>
   );
