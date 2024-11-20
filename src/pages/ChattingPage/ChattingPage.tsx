@@ -41,6 +41,11 @@ const ChattingPage = () => {
   const chatting = useRef<HTMLTextAreaElement | null>(null);
   const socket = useRef<Socket | null>(null);
 
+  if (!CheckLogin()) {
+    alert("로그인 후 이용해주세요.");
+    window.location.href = "/";
+  }
+
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
 
@@ -125,9 +130,6 @@ const ChattingPage = () => {
         socket.current?.emit("leaveRoom", id);
         socket.current?.disconnect();
       };
-    } else {
-      alert("로그인 후 이용해주세요.");
-      window.location.href = "/";
     }
   }, []);
 
