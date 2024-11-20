@@ -186,6 +186,8 @@ const ChattingPage = () => {
       .then((res) => {
         if (!res.ok) {
           throw new Error("채팅방 나가기 실패");
+        } else {
+          window.location.href = "/";
         }
       })
       .catch((error) => {
