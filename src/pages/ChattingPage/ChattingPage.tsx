@@ -4,6 +4,7 @@ import * as styles from "./ChattingPage.styles";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
+import Exit from "@/components/Exit/Exit";
 import Title from "@/components/Title/Title";
 import Topbar from "@/components/Topbar/Topbar";
 
@@ -57,6 +58,7 @@ const ChattingPage = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            credentials: "include",
           },
         },
       )
@@ -96,6 +98,7 @@ const ChattingPage = () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          credentials: "include",
         },
       })
         .then((res) => {
@@ -119,23 +122,6 @@ const ChattingPage = () => {
         });
 
       return () => {
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/chatrooms/${id}/leave`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        })
-          .then((res) => {
-            if (!res.ok) {
-              throw new Error("채팅방 나가기 실패");
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-
-            alert("채팅방 나가기 실패");
-          });
         socket.current?.emit("leaveRoom", id);
         socket.current?.disconnect();
       };
@@ -188,6 +174,27 @@ const ChattingPage = () => {
     }
   };
 
+  const exitChatting = () => {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/chatrooms/${id}/leave`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        credentials: "include",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("채팅방 나가기 실패");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+
+        alert("채팅방 나가기 실패");
+      });
+  };
+
   return (
     <styles.OuterContainer>
       <styles.InnerContainer>
@@ -219,6 +226,7 @@ const ChattingPage = () => {
             전송
           </styles.ChattingButton>
         </styles.ChattingInputContainer>
+        {CheckLogin() ? <Exit exitChatting={exitChatting} /> : null}
       </styles.InnerContainer>
     </styles.OuterContainer>
   );

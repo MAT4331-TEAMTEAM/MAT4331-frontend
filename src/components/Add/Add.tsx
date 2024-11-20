@@ -40,6 +40,7 @@ const Add = ({ id, homeTeam, awayTeam }: AddProps) => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          credentials: "include",
         },
         body: JSON.stringify({
           gameId: id,
