@@ -56,6 +56,34 @@ const ChattingPage = () => {
         setNickname(payload.nickname);
       }
 
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/chatrooms/${id}/join`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          credentials: "include",
+        },
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("채팅방 입장 실패");
+          }
+
+          socket.current?.emit("joinRoom", id);
+          socket.current?.on("chat", (message) => {
+            setChattingList((chattingList) => [
+              { nickname: message.writer.nickname, chatting: message.content },
+              ...chattingList,
+            ]);
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+
+          alert("채팅방 입장 실패");
+          window.location.href = "/";
+        });
+
       fetch(
         `${import.meta.env.VITE_BACKEND_URL}/v1/chats?chatroomId=${id}&loadCount=100000`,
         {
@@ -97,34 +125,6 @@ const ChattingPage = () => {
         },
         transports: ["websocket"],
       });
-
-      fetch(`${import.meta.env.VITE_BACKEND_URL}/v1/chatrooms/${id}/join`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          credentials: "include",
-        },
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error("채팅방 입장 실패");
-          }
-
-          socket.current?.emit("joinRoom", id);
-          socket.current?.on("chat", (message) => {
-            setChattingList((chattingList) => [
-              { nickname: message.writer.nickname, chatting: message.content },
-              ...chattingList,
-            ]);
-          });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-
-          alert("채팅방 입장 실패");
-          window.location.href = "/";
-        });
 
       return () => {
         socket.current?.emit("leaveRoom", id);
