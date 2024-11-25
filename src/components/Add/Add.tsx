@@ -53,6 +53,7 @@ const Add = ({ id, homeTeam, awayTeam }: AddProps) => {
             throw new Error("채팅방 생성 실패");
           } else {
             setIsOpen(false);
+            window.location.reload();
           }
 
           return res.json();

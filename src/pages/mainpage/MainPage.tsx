@@ -71,15 +71,15 @@ const MainPage = () => {
             return {
               id: element.id,
               title: `${element.homeTeam} ${element.homeScore} vs ${element.awayScore} ${element.awayTeam}`,
-              homeTeam: element.homeTeam,
-              awayTeam: element.awayTeam,
+              homeTeam: element.homeTeam ? element.homeTeam : 0,
+              awayTeam: element.awayTeam ? element.awayTeam : 0,
               matchInfo:
                 element.gameStatus == "finished"
                   ? "경기 종료"
                   : element.gameStatus == "canceled"
                     ? "경기 취소"
                     : "경기 시작 전",
-              matchPrediction: `AI 예측 결과 : ${element.homeTeam} ${element.predictedHomeScore} vs ${element.predictedAwayScore} ${element.awayTeam}`,
+              matchPrediction: `AI 예측 결과 : ${element.homeTeam} ${element.predictedHomeScore ? element.predictedHomeScore : 0} vs ${element.predictedAwayScore ? element.predictedAwayScore : 0} ${element.awayTeam}`,
             };
           }),
         );
