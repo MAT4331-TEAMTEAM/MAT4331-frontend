@@ -76,6 +76,15 @@ const ChattingPage = () => {
               ...chattingList,
             ]);
           });
+          socket.current?.on("profane", (message) => {
+            setChattingList((chattingList) => [
+              {
+                nickname: message.writer.nickname,
+                chatting: "부적절한 내용이 포함된 채팅입니다.",
+              },
+              ...chattingList,
+            ]);
+          });
         })
         .catch((error) => {
           console.error("Error:", error);
