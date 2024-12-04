@@ -13,6 +13,7 @@ import { DecodeJWT } from "@/functions/DecodeJWT";
 import { io, Socket } from "socket.io-client";
 
 interface ChattingInterface {
+  id: number;
   nickname: string;
   chatting: string;
 }
@@ -72,20 +73,25 @@ const ChattingPage = () => {
           socket.current?.emit("joinRoom", id);
           socket.current?.on("chat", (message) => {
             setChattingList((chattingList) => [
-              { nickname: message.writer.nickname, chatting: message.content },
-              ...chattingList,
-            ]);
-          });
-          socket.current?.on("profane", (message) => {
-            setChattingList((chattingList) => [
               {
+                id: message.id,
                 nickname: message.writer.nickname,
-                chatting: "부적절한 내용이 포함된 채팅입니다.",
+                chatting: message.content,
               },
               ...chattingList,
             ]);
           });
+          socket.current?.on("profane", (chatId) => {
+            const message = chattingList.find(
+              (element) => element.id === chatId,
+            );
+
+            if (message) {
+              message.chatting = "부적절한 내용이 포함된 채팅입니다.";
+            }
+          });
         })
+
         .catch((error) => {
           console.error("Error:", error);
 
@@ -115,6 +121,7 @@ const ChattingPage = () => {
           setChattingList(
             data.map((element: ChattingElementInterface) => {
               return {
+                id: element.id,
                 nickname: element.writer.nickname,
                 chatting: element.content,
               };
