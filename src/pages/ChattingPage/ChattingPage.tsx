@@ -88,6 +88,7 @@ const ChattingPage = () => {
 
             if (message) {
               message.chatting = "부적절한 내용이 포함된 채팅입니다.";
+              setChattingList([...chattingList]);
             }
           });
         })
