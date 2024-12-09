@@ -82,14 +82,13 @@ const ChattingPage = () => {
             ]);
           });
           socket.current?.on("profane", (chatId) => {
-            const message = chattingList.find(
-              (element) => element.id === chatId,
+            const newChattingList = chattingList.map((element) =>
+              element.id === chatId
+                ? { ...element, chatting: "부적절한 내용이 포함된 채팅입니다." }
+                : element,
             );
 
-            if (message) {
-              message.chatting = "부적절한 내용이 포함된 채팅입니다.";
-              setChattingList([...chattingList]);
-            }
+            setChattingList(newChattingList);
           });
         })
 
