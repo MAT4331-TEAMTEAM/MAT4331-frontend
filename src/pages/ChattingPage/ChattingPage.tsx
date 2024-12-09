@@ -82,13 +82,16 @@ const ChattingPage = () => {
             ]);
           });
           socket.current?.on("profane", (chatId) => {
-            const newChattingList = chattingList.map((element) =>
-              element.id === chatId
-                ? { ...element, chatting: "부적절한 내용이 포함된 채팅입니다." }
-                : element,
+            setChattingList((prevChattingList) =>
+              prevChattingList.map((element) =>
+                element.id === chatId
+                  ? {
+                      ...element,
+                      chatting: "System: 부적절한 내용이 포함된 채팅입니다.",
+                    }
+                  : element,
+              ),
             );
-
-            setChattingList(newChattingList);
           });
         })
 
@@ -164,10 +167,6 @@ const ChattingPage = () => {
   };
 
   const clickSend = () => {
-    if (chatting.current !== null) {
-      chatting.current.blur();
-    }
-
     if (!CheckLogin()) {
       alert("로그인 후 이용해주세요.");
     } else if (
